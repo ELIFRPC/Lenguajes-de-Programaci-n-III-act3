@@ -1,0 +1,41 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Actividad_3_CRUD
+{
+    public partial class FormRegistro : Form
+    {
+        public FormRegistro()
+        {
+            InitializeComponent();
+        }
+
+        private void btnRegistroCliente_Click(object sender, EventArgs e)
+        {
+            FormAcceso acceso = new FormAcceso();
+            acceso.destinoFormulario = "cliente";
+            acceso.Show();
+        }
+
+        private void btnRegistroProveedor_Click(object sender, EventArgs e)
+        {
+            FormAcceso acceso = new FormAcceso();
+            acceso.destinoFormulario = "proveedor";
+            acceso.Show();
+        }
+
+        private void btnRegistroProducto_Click(object sender, EventArgs e)
+        {
+            FormAcceso acceso = new FormAcceso();
+            acceso.destinoFormulario = "producto";
+            acceso.Show();
+        }
+    }
+}
