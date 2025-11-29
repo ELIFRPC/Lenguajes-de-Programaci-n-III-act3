@@ -1,0 +1,32 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Actividad_3_CRUD
+{
+    public partial class formProductos : Form
+    {
+        public formProductos()
+        {
+            InitializeComponent();
+        }
+
+        private void btnDamas_Click(object sender, EventArgs e)
+        {
+            FormDamas damas = new FormDamas();
+            damas.Show();
+        }
+
+        private void btnCaballeros_Click(object sender, EventArgs e)
+        {
+            FormCaballeros caballeros = new FormCaballeros();
+            caballeros.Show();
+        }
+    }
+}
