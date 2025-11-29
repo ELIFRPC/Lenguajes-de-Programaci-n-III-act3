@@ -1,0 +1,53 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Actividad_3_CRUD
+{
+    public partial class FormAcceso : Form
+    {
+        public string destinoFormulario = "";
+        public FormAcceso()
+        {
+            InitializeComponent();
+        }
+
+        private void btnValidar_Click(object sender, EventArgs e)
+        {
+            string contraseñaCorrecta = "holamundo123";
+
+            if (txtContraseña.Text == contraseñaCorrecta)
+            {
+                this.Hide();
+
+                if (destinoFormulario == "cliente")
+                {
+                    FormRegistroCliente frm = new FormRegistroCliente();
+                    frm.Show();
+                }
+                else if (destinoFormulario == "proveedor")
+                {
+                    FormRegistroProveedor frm = new FormRegistroProveedor();
+                    frm.Show();
+                }
+                else if (destinoFormulario == "producto")
+                {
+                    FormRegistroProducto frm = new FormRegistroProducto();
+                    frm.Show();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Contraseña incorrecta. Acceso denegado.");
+                txtContraseña.Clear();
+            }
+        }
+    }
+}
+
