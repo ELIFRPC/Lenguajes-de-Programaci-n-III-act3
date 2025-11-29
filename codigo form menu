@@ -1,0 +1,49 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Actividad_3_CRUD
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void btnBienvenida_Click(object sender, EventArgs e)
+        {
+            FormBienvenida bienvenida = new FormBienvenida();
+            bienvenida.Show(); // Abre el formulario de bienvenida
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            formProductos productos = new formProductos();
+            productos.Show();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            FormRegistro registro = new FormRegistro();
+            registro.Show();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            FormCompras compras = new FormCompras();
+            compras.Show();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+    }
+}
