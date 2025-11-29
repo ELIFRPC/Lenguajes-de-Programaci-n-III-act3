@@ -1,0 +1,128 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Actividad_3_CRUD
+{
+    public partial class FormCompras : Form
+    {
+        public FormCompras()
+        {
+            InitializeComponent();
+        }
+
+        private void FormCompras_Load(object sender, EventArgs e)
+        {
+            SqlConnection conexion = ConexionBD.ObtenerConexion();
+            conexion.Open();
+
+            // Clientes
+            SqlDataAdapter daClientes = new SqlDataAdapter("SELECT idCliente, nombre FROM Cliente", conexion);
+            DataTable tablaClientes = new DataTable();
+            daClientes.Fill(tablaClientes);
+            cmbCliente.DataSource = tablaClientes;
+            cmbCliente.DisplayMember = "nombre";
+            cmbCliente.ValueMember = "idCliente";
+
+            // Productos
+            SqlDataAdapter daProductos = new SqlDataAdapter("SELECT idProducto, nombre FROM Producto", conexion);
+            DataTable tablaProductos = new DataTable();
+            daProductos.Fill(tablaProductos);
+            cmbProducto.DataSource = tablaProductos;
+            cmbProducto.DisplayMember = "nombre";
+            cmbProducto.ValueMember = "idProducto";
+
+            conexion.Close();
+        }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            SqlConnection conexion = ConexionBD.ObtenerConexion();
+            conexion.Open();
+
+            string query = "INSERT INTO Compras (idCliente, idProducto, fechaCompra) VALUES (@idCliente, @idProducto, @fecha)";
+            SqlCommand cmd = new SqlCommand(query, conexion);
+            cmd.Parameters.AddWithValue("@idCliente", Convert.ToInt32(cmbCliente.SelectedValue));
+            cmd.Parameters.AddWithValue("@idProducto", Convert.ToInt32(cmbProducto.SelectedValue));
+            cmd.Parameters.AddWithValue("@fecha", dtpFechaCompra.Value.Date); 
+
+            cmd.ExecuteNonQuery();
+            conexion.Close();
+
+            MessageBox.Show("Compra registrada correctamente.");
+        }
+
+        private void btnMostrar_Click(object sender, EventArgs e)
+        {
+            SqlConnection conexion = ConexionBD.ObtenerConexion();
+            conexion.Open();
+
+            string query = "SELECT * FROM Compras";
+            SqlDataAdapter adaptador = new SqlDataAdapter(query, conexion);
+            DataTable tabla = new DataTable();
+            adaptador.Fill(tabla);
+
+            dgvCompras.DataSource = tabla;
+            conexion.Close();
+        }
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            SqlConnection conexion = ConexionBD.ObtenerConexion();
+            conexion.Open();
+
+            string query = "UPDATE Compras SET idCliente=@idCliente, idProducto=@idProducto, fechaCompra=@fecha WHERE idCompra=@id";
+            SqlCommand cmd = new SqlCommand(query, conexion);
+            cmd.Parameters.AddWithValue("@id", txtIdCompra.Text);
+            cmd.Parameters.AddWithValue("@idCliente", Convert.ToInt32(cmbCliente.SelectedValue));
+            cmd.Parameters.AddWithValue("@idProducto", Convert.ToInt32(cmbProducto.SelectedValue));
+            cmd.Parameters.AddWithValue("@fecha", dtpFechaCompra.Value.Date);
+
+            cmd.ExecuteNonQuery();
+            conexion.Close();
+
+            MessageBox.Show("Compra modificada correctamente.");
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            SqlConnection conexion = ConexionBD.ObtenerConexion();
+            conexion.Open();
+
+            string query = "DELETE FROM Compras WHERE idCompra=@id";
+            SqlCommand cmd = new SqlCommand(query, conexion);
+            cmd.Parameters.AddWithValue("@id", txtIdCompra.Text);
+
+            cmd.ExecuteNonQuery();
+            conexion.Close();
+
+            MessageBox.Show("Compra eliminada correctamente.");
+        }
+
+        private void btnRegresar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void dgvCompras_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow fila = dgvCompras.Rows[e.RowIndex];
+
+                txtIdCompra.Text = fila.Cells["idCompra"].Value.ToString();
+                cmbCliente.SelectedValue = fila.Cells["idCliente"].Value;
+                cmbProducto.SelectedValue = fila.Cells["idProducto"].Value;
+                dtpFechaCompra.Value = Convert.ToDateTime(fila.Cells["fechaCompra"].Value);
+            }
+        }
+    }
+}
+
