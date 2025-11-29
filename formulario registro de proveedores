@@ -1,0 +1,133 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Actividad_3_CRUD
+{
+    public partial class FormRegistroProveedor : Form
+    {
+        public FormRegistroProveedor()
+        {
+            InitializeComponent();
+        }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SqlConnection conexion = ConexionBD.ObtenerConexion();
+                conexion.Open();
+
+                string query = "INSERT INTO Proveedores (nif, nombre, direccion) VALUES (@nif, @nombre, @direccion)";
+                SqlCommand cmd = new SqlCommand(query, conexion);
+                cmd.Parameters.AddWithValue("@nif", txtNif.Text);
+                cmd.Parameters.AddWithValue("@nombre", txtNombre.Text);
+                cmd.Parameters.AddWithValue("@direccion", txtDireccion.Text);
+
+                cmd.ExecuteNonQuery();
+                conexion.Close();
+
+                MessageBox.Show("Proveedor agregado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al agregar proveedor: " + ex.Message);
+            }
+        }
+
+        private void btnMostrar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SqlConnection conexion = ConexionBD.ObtenerConexion();
+                conexion.Open();
+
+                string query = "SELECT * FROM Proveedores";
+                SqlDataAdapter adaptador = new SqlDataAdapter(query, conexion);
+                DataTable tabla = new DataTable();
+                adaptador.Fill(tabla);
+
+                dgvProveedores.DataSource = tabla;
+                conexion.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al mostrar proveedores: " + ex.Message);
+            }
+        }
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SqlConnection conexion = ConexionBD.ObtenerConexion();
+                conexion.Open();
+
+                string query = "UPDATE Proveedores SET nif=@nif, nombre=@nombre, direccion=@direccion WHERE idProveedor=@id";
+                SqlCommand cmd = new SqlCommand(query, conexion);
+                cmd.Parameters.AddWithValue("@id", txtIdProveedor.Text);
+                cmd.Parameters.AddWithValue("@nif", txtNif.Text);
+                cmd.Parameters.AddWithValue("@nombre", txtNombre.Text);
+                cmd.Parameters.AddWithValue("@direccion", txtDireccion.Text);
+
+                cmd.ExecuteNonQuery();
+                conexion.Close();
+
+                MessageBox.Show("Proveedor modificado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al modificar proveedor: " + ex.Message);
+            }
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SqlConnection conexion = ConexionBD.ObtenerConexion();
+                conexion.Open();
+
+                string query = "DELETE FROM Proveedores WHERE idProveedor=@id";
+                SqlCommand cmd = new SqlCommand(query, conexion);
+                cmd.Parameters.AddWithValue("@id", txtIdProveedor.Text);
+
+                cmd.ExecuteNonQuery();
+                conexion.Close();
+
+                MessageBox.Show("Proveedor eliminado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al eliminar proveedor: " + ex.Message);
+            }
+        }
+
+        private void dgvProveedores_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow fila = dgvProveedores.Rows[e.RowIndex];
+
+                txtIdProveedor.Text = fila.Cells["idProveedor"].Value.ToString();
+                txtNif.Text = fila.Cells["nif"].Value.ToString();
+                txtNombre.Text = fila.Cells["nombre"].Value.ToString();
+                txtDireccion.Text = fila.Cells["direccion"].Value.ToString();
+            }
+        }
+
+        private void btnRegresar_Click(object sender, EventArgs e)
+        {
+            {
+            this.Close(); 
+            }
+        }
+    }
+}
