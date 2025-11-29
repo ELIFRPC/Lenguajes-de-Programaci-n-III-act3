@@ -1,0 +1,56 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Actividad_3_CRUD
+{
+    public partial class FormCaballeros : Form
+    {
+        public FormCaballeros()
+        {
+            InitializeComponent();
+        }
+
+        private void btnVerTallas_Click(object sender, EventArgs e)
+        {
+            string tallas = "";
+
+            foreach (Control control in groupBox2.Controls)
+            {
+                if (control is CheckBox cb && cb.Checked)
+                {
+                    tallas += cb.Text + ", ";
+                }
+            }
+
+            MessageBox.Show("Tallas elegidas: " + tallas.TrimEnd(',', ' '));
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Modelo: Chelsea Urbano\nColor: Cafe oscuro\nPrecio: $899");
+        }
+
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Modelo: Oxford clasico\nColor: Marron claro\nPrecio: $1099"); 
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Modelo: Doble Monk Ejecutivo\nColor: Marron chocolate\nPrecio: $1199");
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Modelo: Loafer Versátil\nColor: Cafe avellana\nPrecio: $849");
+
+        }
+    }
+}
