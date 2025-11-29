@@ -1,0 +1,66 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Actividad_3_CRUD
+{
+    public partial class FormBienvenida : Form
+    {
+        public FormBienvenida()
+        {
+            InitializeComponent();
+        }
+
+        private void btnBienvenida_Click(object sender, EventArgs e)
+        {
+            txtBienvenida.Text = "Bienvenido a ZAPATERÍA UMI, tu tienda en línea de confianza. Aquí encontrarás calzado mexicano de calidad, diseñado para acompañarte en cada paso. Gracias por elegirnos, estamos para servirte.";
+            txtBienvenida.Visible = true;
+
+            // Ocultar los otros cuadros
+            txtQuienesSomos.Visible = false;
+            txtMision.Visible = false;
+            txtVision.Visible = false;
+        }
+
+        private void btnQuienesSomos_Click(object sender, EventArgs e)
+        {
+            txtQuienesSomos.Text = "¿Quiénes somos?\nSomos una empresa mexicana, que trata de apoyar al comercio mexicano. Todos nuestros productos son 100% mexicanos, porque creemos en nosotros y porque sabemos que podemos.";
+            txtQuienesSomos.Visible = true;
+
+            txtBienvenida.Visible = false;
+            txtMision.Visible = false;
+            txtVision.Visible = false;
+        }
+
+        private void btnMision_Click(object sender, EventArgs e)
+        {
+            txtMision.Text = "Misión:\nNuestra misión es darnos a conocer a nivel nacional y lograr el objetivo de que todos los mexicanos utilicen productos mexicanos. Que abramos los ojos y veamos que no porque el producto sea de otro país, signifique que es mejor.";
+            txtMision.Visible = true;
+
+            txtBienvenida.Visible = false;
+            txtQuienesSomos.Visible = false;
+            txtVision.Visible = false;
+        }
+
+        private void btnVision_Click(object sender, EventArgs e)
+        {
+            txtVision.Text = "Visión:\nNuestra visión es que una vez que nos encontremos a nivel nacional, buscaremos el mercado internacional y llevaremos el nombre de nuestro producto, de nuestro país, a todo el mundo para que sepan de lo que somos capaces.";
+            txtVision.Visible = true;
+
+            txtBienvenida.Visible = false;
+            txtQuienesSomos.Visible = false;
+            txtMision.Visible = false;
+        }
+
+        private void FormBienvenida_Load(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
