@@ -1,0 +1,145 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Actividad_3_CRUD
+{
+    public partial class FormRegistroCliente : Form
+    {
+        public FormRegistroCliente()
+        {
+            InitializeComponent();
+        }
+
+        private void btntestconex_Click(object sender, EventArgs e)
+        {
+            try
+    {
+                SqlConnection conexion = ConexionBD.ObtenerConexion();
+                conexion.Open();
+
+                string query = "INSERT INTO Cliente (dni, nombre, apellidos, fecha_de_nacimiento, telefono, email) VALUES (@dni, @nombre, @apellidos, @fecha, @telefono, @email)";
+                SqlCommand cmd = new SqlCommand(query, conexion);
+                cmd.Parameters.AddWithValue("@dni", txtDni.Text);
+                cmd.Parameters.AddWithValue("@nombre", txtNombre.Text);
+                cmd.Parameters.AddWithValue("@apellidos", txtApellido.Text);
+                cmd.Parameters.AddWithValue("@fecha", txtFechaNacimiento.Text);
+                cmd.Parameters.AddWithValue("@telefono", txtTelefono.Text);
+                cmd.Parameters.AddWithValue("@email", txtEmail.Text);
+
+                cmd.ExecuteNonQuery();
+                conexion.Close();
+
+                MessageBox.Show("Cliente agregado correctamente.");
+            }
+    catch (Exception ex)
+    {
+                MessageBox.Show("Error al agregar cliente: " + ex.Message);
+            }
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvClientes_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow fila = dgvClientes.Rows[e.RowIndex];
+
+                txtIdCliente.Text = fila.Cells["idCliente"].Value.ToString();
+                txtDni.Text = fila.Cells["dni"].Value.ToString();
+                txtNombre.Text = fila.Cells["nombre"].Value.ToString();
+                txtApellido.Text = fila.Cells["apellidos"].Value.ToString();
+                txtFechaNacimiento.Text = fila.Cells["fecha_de_nacimiento"].Value.ToString();
+                txtTelefono.Text = fila.Cells["telefono"].Value.ToString();
+                txtEmail.Text = fila.Cells["email"].Value.ToString();
+            }
+        }
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            try
+    {
+        SqlConnection conexion = ConexionBD.ObtenerConexion();
+        conexion.Open();
+
+        string query = "UPDATE Cliente SET dni=@dni, nombre=@nombre, apellidos=@apellidos, fecha_de_nacimiento=@fecha, telefono=@telefono, email=@email WHERE idCliente=@id";
+        SqlCommand cmd = new SqlCommand(query, conexion);
+        cmd.Parameters.AddWithValue("@id", txtIdCliente.Text);
+        cmd.Parameters.AddWithValue("@dni", txtDni.Text);
+        cmd.Parameters.AddWithValue("@nombre", txtNombre.Text);
+        cmd.Parameters.AddWithValue("@apellidos", txtApellido.Text);
+        cmd.Parameters.AddWithValue("@fecha", txtFechaNacimiento.Text);
+        cmd.Parameters.AddWithValue("@telefono", txtTelefono.Text);
+        cmd.Parameters.AddWithValue("@email", txtEmail.Text);
+
+        cmd.ExecuteNonQuery();
+        conexion.Close();
+
+        MessageBox.Show("Cliente modificado correctamente.");
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show("Error al modificar cliente: " + ex.Message);
+    }
+        }
+
+        private void btnMostrar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SqlConnection conexion = ConexionBD.ObtenerConexion();
+                conexion.Open();
+
+                string query = "SELECT * FROM Cliente";
+                SqlDataAdapter adaptador = new SqlDataAdapter(query, conexion);
+                DataTable tabla = new DataTable();
+                adaptador.Fill(tabla);
+
+                dgvClientes.DataSource = tabla;
+                conexion.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al mostrar clientes: " + ex.Message);
+            }
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SqlConnection conexion = ConexionBD.ObtenerConexion();
+                conexion.Open();
+
+                string query = "DELETE FROM Cliente WHERE idCliente=@id";
+                SqlCommand cmd = new SqlCommand(query, conexion);
+                cmd.Parameters.AddWithValue("@id", txtIdCliente.Text);
+
+                cmd.ExecuteNonQuery();
+                conexion.Close();
+
+                MessageBox.Show("Cliente eliminado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al eliminar cliente: " + ex.Message);
+            }
+        }
+
+        private void btnRegresar_Click(object sender, EventArgs e)
+        {
+            this.Close(); 
+        }
+    }
+}
